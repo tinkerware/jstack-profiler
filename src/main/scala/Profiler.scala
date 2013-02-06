@@ -9,9 +9,9 @@ object Profiler {
     println("-" * title.size)
     val sortedMethods = Analysis.methodsBreakOut(graph).toSeq.sortBy(- _._1)
     val (total,root) = sortedMethods(0)
-    require(root == Node.ROOT)
+    // require(root == Node.ROOT)
     println("rank\ttime\tname")
-    sortedMethods.drop(1).zipWithIndex foreach { case ((count, name), i) =>
+    sortedMethods.drop(if (root == Node.ROOT) 1 else 0).zipWithIndex foreach { case ((count, name), i) =>
       println("%d\t%.02f%%\t%s".format(i, 100 * count.toFloat / total, name))
     }
     println("")
